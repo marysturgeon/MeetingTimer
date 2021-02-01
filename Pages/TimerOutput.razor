@@ -1,0 +1,64 @@
+@page "/timeroutput"
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+
+<h1>Meeting Timer</h1>
+
+<table class="table">
+    <tr>
+        <th>Attendees</th>
+        <th>@attend</th>
+    </tr>
+    <tr>
+        <th>Cost</th>
+        <th>@cost</th>
+    </tr>
+    <tr>
+        <th>Timer</th>
+        <th>@string.Format("{0:C2}",Total)</th>
+    </tr>
+
+</table>
+
+@code
+{
+    private double attend {get; set; }
+    private int meetings {get; set; }
+    private double cost {get; set; }
+    private double Total {get; set; } = 0;
+    private double delta {get; set; }
+    bool is_stopwatchrunning = false;
+    
+    public async Task LoadData()
+    {
+        attend = await sessionStorage.GetItemAsync<double>("attend");
+        cost = await sessionStorage.GetItemAsync<double>("cost");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadData();
+            StateHasChanged();
+        }
+    }
+    async Task StopWatch()
+    {
+        is_stopwatchrunning = true;
+        while(is_stopwatchrunning)
+        {
+            await Task.Delay(100);
+            if (is_stopwatchrunning)
+            {
+                delta = (attend * cost) / 36000;
+                Total = Total + delta;
+                StateHasChanged();
+            }
+        }
+    }
+
+}
+
+<button class="btn btn-primary" @onclick="@(async () => { StopWatch(); })">Go</button>
+<button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; })">Pause</button>
+<button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; Total = 0; })">Clear</button>

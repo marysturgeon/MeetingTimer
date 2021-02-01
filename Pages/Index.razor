@@ -1,0 +1,50 @@
+@page "/"
+@inject NavigationManager UriHelper
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+
+<h1>Meeting Timer</h1>
+
+<table class="table">
+    <tr>
+        <th>Number of Attendees</th>
+        <th><input @bind="attend" /></th>
+    </tr>
+    <tr>
+        <th>Meetings Per Week</th>
+        <th><input @bind="meetings" /></th>
+    </tr>
+    <tr>
+        <th>Average Hourly Opportunity Cost</th>
+        <th><input @bind="cost" /></th>
+    </tr>
+
+</table>
+
+@code
+{
+    private double attend {get; set; }
+    private int meetings {get; set; }
+    private double cost {get; set; }
+    public async Task LoadData()
+    {
+        attend = await sessionStorage.GetItemAsync<double>("attend");
+        cost = await sessionStorage.GetItemAsync<double>("cost");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadData();
+            StateHasChanged();
+        }
+    }
+    void GoTiem()
+    {
+        sessionStorage.SetItemAsync("attend", attend);
+        sessionStorage.SetItemAsync("cost", cost);
+        UriHelper.NavigateTo("timeroutput");
+    }
+}
+
+<button class="btn btn-primary" @onclick="@GoTiem">Go</button>

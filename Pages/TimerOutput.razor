@@ -72,8 +72,10 @@
 
 }
 
-<button class="btn btn-primary" @onclick="@(async () => { StopWatch(); })">Go</button>
-<button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; })">Pause</button>
-<button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; Total = 0; })">Reset Timer</button>
-<button class="btn btn-primary" @onclick="@EndTimer">End Timer</button>
-<button class="btn btn-primary" @onclick="@Edit">Edit Timer Values</button>
+<table>
+<tr><td><button class="btn btn-primary" @onclick="@(async () => { StopWatch(); })">Go</button></td></tr>
+<tr><td><button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; })">Pause</button></td></tr>
+<tr><td><button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; Total = 0; })">Reset Timer</button></td></tr>
+<tr><td><button class="btn btn-primary" @onclick="@EndTimer">End Timer</button></td></tr>
+<tr><td><button class="btn btn-primary" @onclick="@Edit">Edit Timer Values</button></td></tr>
+</table>

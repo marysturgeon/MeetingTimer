@@ -59,8 +59,8 @@ a:hover,
     .btn-primary:hover,
     .btn-primary:active,
     .btn-primary:focus {
-        background-color:#193e1f;
-        border-color: #193e1f;
+        background-color:#193e1f !important;
+        border-color: #193e1f !important;
         outline: none !important;
         box-shadow: none !important;
     }

@@ -1,6 +1,7 @@
 @page "/timerend"
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 @inject NavigationManager UriHelper
+@inject IJSRuntime JSRuntime
 
 <h1>Timer End</h1>
 
@@ -26,7 +27,7 @@
 
 <h2>With @attend attendees, at an average opportunity cost of @string.Format("{0:C2}",cost) per hour...</h2>
 <h2>The total meeting cost is @string.Format("{0:C2}",Total)</h2>
-<h2>Across the company, this results in a yearly meeting cost of @string.Format("{0:C2}",Company)</h2>
+<h2>In this room, this results in a yearly meeting cost of @string.Format("{0:C2}",Company)</h2>
 
 @code
 {

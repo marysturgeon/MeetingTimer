@@ -5,13 +5,20 @@ html, body {
 }
 
 a, .btn-link {
-    color: #0366d6;
+    color: #4c9646;
 }
+
+a:hover,
+    a:active,
+    a:focus
+    {
+        color: #193e1f;
+    }
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: #4c9646;
+    border-color: #4c9646;
 }
 
 .content {
@@ -47,4 +54,18 @@ a, .btn-link {
         position: absolute;
         right: 0.75rem;
         top: 0.5rem;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:active,
+    .btn-primary:focus {
+        background-color:#193e1f;
+        border-color: #193e1f;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    td.shrink {
+        white-space: nowrap;
+        width: 300px;
     }

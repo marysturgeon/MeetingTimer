@@ -1,21 +1,25 @@
 @page "/"
 @inject NavigationManager UriHelper
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject IJSRuntime JSRuntime
 
-<h1>Meeting Timer</h1>
+<h1>Timer Setup</h1>
 
 <table class="table">
     <tr>
-        <th>Number of Attendees</th>
-        <th><input @bind="attend" /></th>
+        <td class="shrink">Number of Attendees</td>
+        <td><input @bind="attend" /></td>
+        <td></td>
     </tr>
     <tr>
-        <th>Meetings Per Week</th>
-        <th><input @bind="meetings" /></th>
+        <td class="shrink">Meetings Per Week</td>
+        <td><input @bind="meetings" /></td>
+        <td></td>
     </tr>
     <tr>
-        <th>Average Hourly Opportunity Cost</th>
-        <th><input @bind="cost" /></th>
+        <td class="shrink">Average Hourly Opportunity Cost</td>
+        <td><input @bind="cost" /></td>
+        <td></td>
     </tr>
 
 </table>
@@ -25,6 +29,8 @@
     private double attend {get; set; }
     private int meetings {get; set; }
     private double cost {get; set; }
+
+    private double Total {get; set; }
     public async Task LoadData()
     {
         attend = await sessionStorage.GetItemAsync<double>("attend");
@@ -34,8 +40,10 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await JSRuntime.InvokeVoidAsync("setTitle", "Arcade Meeting Timer");
         if (firstRender)
         {
+            await JSRuntime.InvokeVoidAsync("setTitle", "Arcade Meeting Timer");
             await LoadData();
             StateHasChanged();
         }

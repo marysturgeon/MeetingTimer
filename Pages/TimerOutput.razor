@@ -1,28 +1,14 @@
 @page "/timeroutput"
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 @inject NavigationManager UriHelper
+@inject IJSRuntime JSRuntime
 
-<h1>Meeting Timer</h1>
 
-<table class="table">
-    <tr>
-        <th>Attendees</th>
-        <th>@attend</th>
-    </tr>
-    <tr>
-        <th>Cost</th>
-        <th>@cost</th>
-    </tr>
-    <tr>
-        <th>Meetings</th>
-        <th>@meetings</th>
-    </tr>
-    <tr>
-        <th>Timer</th>
-        <th>@string.Format("{0:C2}",Total)</th>
-    </tr>
+    <h1>Meeting Cost:</h1>
+    <h1>@string.Format("{0:C2}",Total)</h1>
+    <br>
+    <br>
 
-</table>
 
 @code
 {
@@ -38,6 +24,7 @@
         attend = await sessionStorage.GetItemAsync<double>("attend");
         cost = await sessionStorage.GetItemAsync<double>("cost");
         meetings = await sessionStorage.GetItemAsync<int>("meetings");
+        Total = await sessionStorage.GetItemAsync<double>("Total");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -73,9 +60,20 @@
         UriHelper.NavigateTo("timerend");
     }
 
+    void Edit()
+    {
+        is_stopwatchrunning = false;
+        sessionStorage.SetItemAsync("attend", attend);
+        sessionStorage.SetItemAsync("cost", cost);
+        sessionStorage.SetItemAsync("meetings", meetings);
+        sessionStorage.SetItemAsync("Total", Total);
+        UriHelper.NavigateTo("/");
+    }
+
 }
 
 <button class="btn btn-primary" @onclick="@(async () => { StopWatch(); })">Go</button>
 <button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; })">Pause</button>
-<button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; Total = 0; })">Clear</button>
+<button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; Total = 0; })">Reset Timer</button>
 <button class="btn btn-primary" @onclick="@EndTimer">End Timer</button>
+<button class="btn btn-primary" @onclick="@Edit">Edit Timer Values</button>

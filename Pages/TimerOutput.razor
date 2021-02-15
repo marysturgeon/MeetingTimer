@@ -1,5 +1,6 @@
 @page "/timeroutput"
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject NavigationManager UriHelper
 
 <h1>Meeting Timer</h1>
 
@@ -11,6 +12,10 @@
     <tr>
         <th>Cost</th>
         <th>@cost</th>
+    </tr>
+    <tr>
+        <th>Meetings</th>
+        <th>@meetings</th>
     </tr>
     <tr>
         <th>Timer</th>
@@ -32,6 +37,7 @@
     {
         attend = await sessionStorage.GetItemAsync<double>("attend");
         cost = await sessionStorage.GetItemAsync<double>("cost");
+        meetings = await sessionStorage.GetItemAsync<int>("meetings");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -57,8 +63,19 @@
         }
     }
 
+    void EndTimer()
+    {
+        is_stopwatchrunning = false;
+        sessionStorage.SetItemAsync("attend", attend);
+        sessionStorage.SetItemAsync("cost", cost);
+        sessionStorage.SetItemAsync("meetings", meetings);
+        sessionStorage.SetItemAsync("Total", Total);
+        UriHelper.NavigateTo("timerend");
+    }
+
 }
 
 <button class="btn btn-primary" @onclick="@(async () => { StopWatch(); })">Go</button>
 <button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; })">Pause</button>
 <button class="btn btn-primary" @onclick="@(() => { is_stopwatchrunning = false; Total = 0; })">Clear</button>
+<button class="btn btn-primary" @onclick="@EndTimer">End Timer</button>

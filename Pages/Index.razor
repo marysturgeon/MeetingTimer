@@ -29,6 +29,7 @@
     {
         attend = await sessionStorage.GetItemAsync<double>("attend");
         cost = await sessionStorage.GetItemAsync<double>("cost");
+        meetings = await sessionStorage.GetItemAsync<int>("meetings");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -43,6 +44,7 @@
     {
         sessionStorage.SetItemAsync("attend", attend);
         sessionStorage.SetItemAsync("cost", cost);
+        sessionStorage.SetItemAsync("meetings", meetings);
         UriHelper.NavigateTo("timeroutput");
     }
 }

@@ -1,0 +1,59 @@
+@page "/timerend"
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject NavigationManager UriHelper
+
+<h1>Timer End</h1>
+
+<table class="table">
+    <tr>
+        <th>Attendees</th>
+        <th>@attend</th>
+    </tr>
+    <tr>
+        <th>Cost</th>
+        <th>@cost</th>
+    </tr>
+    <tr>
+        <th>Meetings</th>
+        <th>@meetings</th>
+    </tr>
+    <tr>
+        <th>Total</th>
+        <th>@string.Format("{0:C2}",Total)</th>
+    </tr>
+
+</table>
+
+<h2>With @attend attendees, at an average opportunity cost of @string.Format("{0:C2}",cost) per hour...</h2>
+<h2>The total meeting cost is @string.Format("{0:C2}",Total)</h2>
+<h2>Across the company, this results in a yearly meeting cost of @string.Format("{0:C2}",Company)</h2>
+
+@code
+{
+    private double attend {get; set; }
+    private int meetings {get; set; }
+    private double cost {get; set; }
+    private double Total {get; set; } = 0;
+
+    private double Company {get; set;}
+    
+    public async Task LoadData()
+    {
+        attend = await sessionStorage.GetItemAsync<double>("attend");
+        cost = await sessionStorage.GetItemAsync<double>("cost");
+        meetings = await sessionStorage.GetItemAsync<int>("meetings");
+        Total = await sessionStorage.GetItemAsync<double>("Total");
+        Company = Total * meetings * 52;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadData();
+            StateHasChanged();
+        }
+    }
+
+
+}

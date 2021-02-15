@@ -3,31 +3,11 @@
 @inject NavigationManager UriHelper
 @inject IJSRuntime JSRuntime
 
-<h1>Timer End</h1>
-
-<table class="table">
-    <tr>
-        <th>Attendees</th>
-        <th>@attend</th>
-    </tr>
-    <tr>
-        <th>Cost</th>
-        <th>@cost</th>
-    </tr>
-    <tr>
-        <th>Meetings</th>
-        <th>@meetings</th>
-    </tr>
-    <tr>
-        <th>Total</th>
-        <th>@string.Format("{0:C2}",Total)</th>
-    </tr>
-
-</table>
+<h1>Results</h1>
 
 <h2>With @attend attendees, at an average opportunity cost of @string.Format("{0:C2}",cost) per hour...</h2>
-<h2>The total meeting cost is @string.Format("{0:C2}",Total)</h2>
-<h2>In this room, this results in a yearly meeting cost of @string.Format("{0:C2}",Company)</h2>
+<h2>The total meeting cost is @string.Format("{0:C2}",Total).</h2>
+<h2>In this room, this results in a yearly meeting cost of @string.Format("{0:C2}",Company).</h2>
 
 @code
 {
